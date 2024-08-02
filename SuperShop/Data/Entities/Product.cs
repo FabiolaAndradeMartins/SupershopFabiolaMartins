@@ -46,7 +46,7 @@ namespace SuperShop.Data.Entities
                 {
                     return null;
                 }
-                return $"https://localhost:44324{ImageUrl.Substring(1)}";
+                return $"https://supershopfabiolmartins.azurewebsites.net/{ImageUrl.Substring(1)}";
             }
         }
     }
