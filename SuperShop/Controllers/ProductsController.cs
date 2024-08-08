@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
-using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 using SuperShop.Models;
 
 namespace SuperShop.Controllers
 {
+    
     public class ProductsController : Controller
     {
-        
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
         private readonly IBlobHelper _blobHelper;
@@ -60,6 +57,8 @@ namespace SuperShop.Controllers
         }
 
         // GET: Products/Create
+
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -114,6 +113,7 @@ namespace SuperShop.Controllers
         //}
 
         // GET: Products/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
