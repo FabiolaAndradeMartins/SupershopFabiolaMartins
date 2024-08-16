@@ -39,17 +39,8 @@ namespace SuperShop.Data.Entities
         public User User { get; set; }
 
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $""     //Aqui ele colocou o endereço do site do Azure
-			: $"";    //Aqui ele colocou o endereço do Blob do Azure
-        //{
-        //    //get
-        //    //{
-        //    //    if (string.IsNullOrEmpty(ImageUrl))
-        //    //    {
-        //    //        return null;
-        //    //    }
-        //    //    return $"https://supershopfabiolmartins.azurewebsites.net/{ImageUrl.Substring(1)}";
-        //    //}
-        //}
+            ? $"images/noimage.png"   
+			: $"images/products/{ImageId}.png"; 
+        
     }
 }

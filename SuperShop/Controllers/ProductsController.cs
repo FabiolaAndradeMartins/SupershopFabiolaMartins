@@ -10,37 +10,38 @@ using SuperShop.Models;
 
 namespace SuperShop.Controllers
 {
-    
+
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IBlobHelper _blobHelper;
-        //private readonly IImageHelper _imageHelper;
+        //private readonly IBlobHelper _blobHelper;
+        private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
 
         public ProductsController(
             IProductRepository productRepository,
             IUserHelper userHelper,
-            //IImageHelper imageHelper,
-            IBlobHelper blobHelper,
+            IImageHelper imageHelper,
+            //IBlobHelper blobHelper,
             IConverterHelper converterHelper)
         {
             _productRepository = productRepository;
             _userHelper = userHelper;
-            //_imageHelper = imageHelper;
-            _blobHelper = blobHelper;
+            _imageHelper = imageHelper;
+            //_blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
         // GET: Products
         public IActionResult Index()
         {
-            return View(_productRepository.GetAll().OrderBy(p => p.Name));
+            var viewModel = _productRepository.GetAll().OrderBy(p => p.Name);
+            return View(viewModel);
         }
 
         // GET: Products/Details/5
-        public async Task <IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -77,20 +78,20 @@ namespace SuperShop.Controllers
 
                 Guid imageId = Guid.Empty;
 
-                if(model.ImageFile !=null && model.ImageFile.Length > 0)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    
+
                     //path = await _imageHelper.UploadImageAsync(model.ImageFile,"products");
-                   imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
+                    //imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
+                    imageId = await _imageHelper.UploadImageGuidAsync(model.ImageFile, "products");
                 }
 
-                
-               var product = _converterHelper.ToProduct(model, imageId, true);
+                var product = _converterHelper.ToProduct(model, imageId, true);
 
 
                 //ToDo : Modificar para o user que tiver logado
                 product.User = await _userHelper.GetUserByEmailAsync("bidelavitta1@gmail.com");
-                await _productRepository.CreateAsync(product);               
+                await _productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -154,7 +155,7 @@ namespace SuperShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProductViewModel model)
         {
-           
+
 
             if (ModelState.IsValid)
             {
@@ -162,24 +163,25 @@ namespace SuperShop.Controllers
                 {
                     Guid imageId = model.ImageId;
 
-                    if(model.ImageFile != null && model.ImageFile.Length > 0)
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
 
-                      
-                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
+
+                        //imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
+                        imageId = await _imageHelper.UploadImageGuidAsync(model.ImageFile, "products");
                     }
 
                     var product = _converterHelper.ToProduct(model, imageId, false);
-                    
+
 
                     //ToDo : Modificar para o user que tiver logado
                     product.User = await _userHelper.GetUserByEmailAsync("bidelavitta1@gmail.com");
                     await _productRepository.UpdateAsync(product);
-                   
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _productRepository.ExistAsync(model.Id))
+                    if (!await _productRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -194,7 +196,7 @@ namespace SuperShop.Controllers
         }
 
         // GET: Products/Delete/5
-        public async Task <IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -202,7 +204,7 @@ namespace SuperShop.Controllers
             }
 
             var product = await _productRepository.GetByIdAsync(id.Value);
-                
+
             if (product == null)
             {
                 return NotFound();
@@ -214,7 +216,7 @@ namespace SuperShop.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-       public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
             await _productRepository.DeleteAsync(product);

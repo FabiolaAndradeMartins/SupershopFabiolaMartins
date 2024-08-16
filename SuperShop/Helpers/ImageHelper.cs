@@ -7,10 +7,11 @@ namespace SuperShop.Helpers
 {
     public class ImageHelper : IImageHelper
     {
-        public  async Task<string> UploadImageAsync(IFormFile imagefile, string folder)
+        public  async Task<string> UploadImageAsync(IFormFile imagefile, string folder, Guid? guid = null)
         {
-            string guid = Guid.NewGuid().ToString();
-            string file = $"{guid}.jpg";
+            if (guid == null) guid = Guid.NewGuid();
+            var guidString = guid.Value.ToString();
+            string file = $"{guidString}.png";
            
             string path = Path.Combine(
                 Directory.GetCurrentDirectory(),
@@ -23,6 +24,13 @@ namespace SuperShop.Helpers
             }
 
             return $"~/images/{folder}/{file}";
+        }
+
+        public async Task<Guid> UploadImageGuidAsync(IFormFile imagefile, string folder)
+        {       
+            var guid = Guid.NewGuid();
+            UploadImageAsync(imagefile, folder, guid);
+            return guid;
         }
     }
 }

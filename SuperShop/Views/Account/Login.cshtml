@@ -7,26 +7,26 @@
 <div class="row">
     <div class="col-md-4 offset-md-4">
         <form method="post">
-            <div> asp-validation-summary="ModelOnly"></div>
+            <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
                 <label aps-for="Username">Username</label>
-                <imput asp-for="Username" class="form-control"/>
+                <input asp-for="Username" class="form-control"/>
                 <span asp-validation-for="Username" class="text-warning"></span>
             </div>
             <div class="form-group">
                 <label aps-for="Password">Password</label>
-                <imput asp-for="Password"  type="password"class="form-control" />
+                <input asp-for="Password"  type="password"class="form-control" />
                 <span asp-validation-for="Password" class="text-warning"></span>
             </div>
             <div class="form-group">
               <div class="form-check">
-                  <imput asp-for="RememberMe" type="checkbox" class="form-check-imput"/>
+                  <input asp-for="RememberMe" type="checkbox" class="form-check-input"/>
                   <label asp-for="RememberMe" class="form-check-label">Remember Me ?</label>
               </div>
               <span asp-validation-for="RememberMe" class="text-warning"></span>
             </div>
             <div class="form-group">
-                <imput typeof="submit" value="Login" class="btn btn-success"/>
+                <input type="submit" value="Login" class="btn btn-success"/>
                 <a asp-action="Register" class="btn btn-primary">Register New User</a>
             </div>
         </form>

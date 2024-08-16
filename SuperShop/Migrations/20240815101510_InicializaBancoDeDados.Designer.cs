@@ -10,8 +10,8 @@ using SuperShop.Data;
 namespace SuperShop.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240725104401_AddUsers")]
-    partial class AddUsers
+    [Migration("20240815101510_InicializaBancoDeDados")]
+    partial class InicializaBancoDeDados
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,8 +159,8 @@ namespace SuperShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsAvaiable")
                         .HasColumnType("bit");

@@ -17,7 +17,7 @@ namespace SuperShop.Controllers
 
         public IActionResult Login()
         {
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -26,7 +26,7 @@ namespace SuperShop.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult>Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -41,13 +41,13 @@ namespace SuperShop.Controllers
                 }
             }
 
-            this.ModelState.AddModelError(string.Empty, "failed to login");
+            this.ModelState.AddModelError(string.Empty, "F ailed to login");
             return View(model);
         }
 
-        public async Task <IActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
-           await _userHelper.LogoutAsync();
+            await _userHelper.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
     }
