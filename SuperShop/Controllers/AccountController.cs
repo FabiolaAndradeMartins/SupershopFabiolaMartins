@@ -161,7 +161,7 @@ namespace SuperShop.Controllers
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User nor found.");
+                    this.ModelState.AddModelError(string.Empty, "User not found.");
                 }
             }
             return this.View(model);
