@@ -1,4 +1,6 @@
-﻿using SuperShop.Data.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SuperShop.Data.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,5 +9,7 @@ namespace SuperShop.Data
     public interface IOrderRepository : IGenericRepository<Order>
     {
         Task<IQueryable<Order>> GetOrderAsync(string userName);
+        Task<IQueryable<OrderDetailTemp>> GetDetailsTempsAsync(string userName);
+        IEnumerable<SelectListItem> GetComboProducts();
     }
 }
