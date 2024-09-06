@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperShop.Data.Entities;
+using SuperShop.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace SuperShop.Data
     {
         Task<IQueryable<Order>> GetOrderAsync(string userName);
         Task<IQueryable<OrderDetailTemp>> GetDetailsTempsAsync(string userName);
-        IEnumerable<SelectListItem> GetComboProducts();
+        Task AddItemToOrderAsync(AddItemViewModel model, string userName);
+        Task ModifyOrderDetailTempQuantityAsync(int id, double quantity);       
+
     }
 }
