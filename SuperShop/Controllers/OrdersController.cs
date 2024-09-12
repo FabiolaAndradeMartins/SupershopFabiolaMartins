@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 using SuperShop.Data;
 using SuperShop.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace SuperShop.Controllers
@@ -36,23 +38,23 @@ namespace SuperShop.Controllers
                 Quantity = 1,
                 Products = _productRepository.GetComboProducts()
             };
-            return View(model); 
+            return View(model);
         }
         [HttpPost]
-		public async Task <IActionResult >AddProduct(AddItemViewModel model)
-		{
-			if(ModelState.IsValid)
+        public async Task<IActionResult> AddProduct(AddItemViewModel model)
+        {
+            if (ModelState.IsValid)
             {
                 await _orderRepository.AddItemToOrderAsync(model, this.User.Identity.Name);
                 return RedirectToAction("Create");
             }
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-        public async Task<IActionResult>DeleteItem(int? id)
+        public async Task<IActionResult> DeleteItem(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -61,27 +63,27 @@ namespace SuperShop.Controllers
             return RedirectToAction("Create");
         }
 
-		public async Task<IActionResult> Increase(int? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
+        public async Task<IActionResult> Increase(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-			await _orderRepository.ModifyOrderDetailTempQuantityAsync(id.Value,1);
-			return RedirectToAction("Create");
-		}
+            await _orderRepository.ModifyOrderDetailTempQuantityAsync(id.Value, 1);
+            return RedirectToAction("Create");
+        }
 
-		public async Task<IActionResult> Decrease(int? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
+        public async Task<IActionResult> Decrease(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-			await _orderRepository.ModifyOrderDetailTempQuantityAsync(id.Value, -1);
-			return RedirectToAction("Create");
-		}
+            await _orderRepository.ModifyOrderDetailTempQuantityAsync(id.Value, -1);
+            return RedirectToAction("Create");
+        }
 
         public async Task<IActionResult> ConfirmOrder()
         {
@@ -93,5 +95,39 @@ namespace SuperShop.Controllers
 
             return RedirectToAction("Create");
         }
-	}
+
+        public async Task<IActionResult> Deliver(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _orderRepository.GetOrderAsync(id.Value);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            var model = new DeliveryViewModel
+            {
+                Id = order.Id,
+                DeliveryDate = DateTime.Today
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Deliver(DeliveryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _orderRepository.DeliverOrder(model);
+                return RedirectToAction("Index");
+            }
+
+           return View();
+        }
+    }
 }

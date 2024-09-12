@@ -44,15 +44,13 @@ namespace SuperShop
             services.AddTransient<SeedDb>();
 
             services.AddScoped<IUserHelper, UserHelper>();
-
             //services.AddScoped<IBlobHelper, BlobHelper>();
-
             services.AddScoped<IImageHelper, ImageHelper>();
-
             services.AddScoped<IConverterHelper, ConverterHelper>();            
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
 
             services.ConfigureApplicationCookie(options =>
             {
