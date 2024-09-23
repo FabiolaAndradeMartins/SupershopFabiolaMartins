@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SuperShop.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -346,6 +346,12 @@ namespace SuperShop.Migrations
                 name: "IX_Cities_CountryId",
                 table: "Cities",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Countries_Name",
+                table: "Countries",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderId",

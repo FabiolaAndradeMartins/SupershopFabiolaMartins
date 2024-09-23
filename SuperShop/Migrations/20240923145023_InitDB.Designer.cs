@@ -10,8 +10,8 @@ using SuperShop.Data;
 namespace SuperShop.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240921101222_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20240923145023_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -187,6 +187,9 @@ namespace SuperShop.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Countries");
                 });
